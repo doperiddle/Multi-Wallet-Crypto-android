@@ -40,7 +40,7 @@ class EvmLabelManager(
     }
 
     fun methodLabel(input: ByteArray): String? {
-        val methodId = input.take(4).toByteArray().toHexString()
+        val methodId = input.copyOfRange(0, 4).toHexString()
         return methodLabelDao.get(methodId.lowercase())?.label
     }
 
