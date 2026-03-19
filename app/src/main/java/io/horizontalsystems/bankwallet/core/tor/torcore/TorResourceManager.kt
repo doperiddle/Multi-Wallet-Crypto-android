@@ -121,7 +121,7 @@ class TorResourceManager(private val torSettings: Tor.Settings) {
                     port++
             }
 
-            return port.toString() + ""
+            return port.toString()
         }
 
         return portString

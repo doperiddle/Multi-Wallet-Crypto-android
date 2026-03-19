@@ -140,7 +140,7 @@ class TransactionInfoService(
 
             coinUids.addAll(txCoinTypes)
 
-            return coinUids.filterNotNull().filter { it.isNotBlank() }.distinct()
+            return coinUids.asSequence().filterNotNull().filter { it.isNotBlank() }.distinct().toList()
         }
 
     suspend fun start() = withContext(Dispatchers.IO) {

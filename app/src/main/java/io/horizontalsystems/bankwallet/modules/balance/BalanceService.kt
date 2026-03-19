@@ -145,11 +145,10 @@ class BalanceService(
 
     @Synchronized
     private fun handleXRateUpdate(latestRates: Map<String, CoinPrice?>) {
-        for (i in 0 until allBalanceItems.size) {
-            val balanceItem = allBalanceItems[i]
-
-            if (latestRates.containsKey(balanceItem.wallet.coin.uid)) {
-                allBalanceItems[i] = balanceItem.copy(coinPrice = latestRates[balanceItem.wallet.coin.uid])
+        allBalanceItems.forEachIndexed { i, balanceItem ->
+            val uid = balanceItem.wallet.coin.uid
+            if (uid in latestRates) {
+                allBalanceItems[i] = balanceItem.copy(coinPrice = latestRates[uid])
             }
         }
 

@@ -13,8 +13,13 @@ class NftStorage(
     fun addressInfo(nftKey: NftKey): NftAddressMetadata? = try {
         val collectionRecords = nftDao.getCollections(nftKey.blockchainType, nftKey.account.id)
         val assetRecords = nftDao.getAssets(nftKey.blockchainType, nftKey.account.id)
-        val priceRecords =
-            collectionRecords.mapNotNull { it.averagePrice7d } + collectionRecords.mapNotNull { it.averagePrice30d } + assetRecords.mapNotNull { it.lastSale }
+        val priceRecords = buildList {
+            collectionRecords.forEach { rec ->
+                rec.averagePrice7d?.let { add(it) }
+                rec.averagePrice30d?.let { add(it) }
+            }
+            assetRecords.forEach { rec -> rec.lastSale?.let { add(it) } }
+        }
 
         val tokens = marketKit.tokens(tokenQueries(priceRecords))
         val collections = collectionRecords.map {
