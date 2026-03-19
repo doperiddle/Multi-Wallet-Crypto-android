@@ -25,4 +25,4 @@ Devices with Android versions 8.1 and above
 
 ## License
 
-This wallet is open source and available under the terms of the MIT License.
+This wallet is open source and available under the terms of the MIT License. Copyright (c) 2024 Mark Dannenbaum.
