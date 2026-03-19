@@ -1,0 +1,50 @@
+# Copy this file to local.properties and fill in the values.
+# local.properties is excluded from version control (.gitignore).
+
+# Keystore credentials (used by appCenter signing config)
+keystore.storePassword=
+keystore.keyAlias=
+keystore.keyPassword=
+
+# Debug build API keys
+debug.twitterBearerToken=
+debug.cryptoCompareApiKey=
+debug.infuraProjectId=
+debug.infuraSecretKey=
+debug.etherscanKey=
+debug.bscscanKey=
+debug.polygonscanKey=
+debug.snowtraceApiKey=
+debug.optimisticEtherscanApiKey=
+debug.arbiscanApiKey=
+debug.gnosisscanApiKey=
+debug.ftmscanApiKey=
+debug.defiyieldProviderApiKey=
+debug.marketApiKey=
+debug.openSeaApiKey=
+debug.walletConnectV2Key=
+debug.solscanApiKey=
+debug.trongridApiKey=
+debug.udnApiKey=
+debug.oneInchApiKey=
+
+# Release build API keys
+release.twitterBearerToken=
+release.infuraProjectId=
+release.infuraSecretKey=
+release.etherscanKey=
+release.bscscanKey=
+release.polygonscanKey=
+release.snowtraceApiKey=
+release.optimisticEtherscanApiKey=
+release.arbiscanApiKey=
+release.gnosisscanApiKey=
+release.ftmscanApiKey=
+release.defiyieldProviderApiKey=
+release.marketApiKey=
+release.openSeaApiKey=
+release.walletConnectV2Key=
+release.solscanApiKey=
+release.trongridApiKey=
+release.udnApiKey=
+release.oneInchApiKey=
