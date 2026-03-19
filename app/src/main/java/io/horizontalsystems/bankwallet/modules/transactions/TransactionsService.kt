@@ -112,14 +112,7 @@ class TransactionsService(
 
     @Synchronized
     private fun handleContactsUpdate() {
-        val tmpList = mutableListOf<TransactionItem>()
-        transactionItems.forEach {
-            tmpList.add(it.copy())
-        }
-
-        transactionItems.clear()
-        transactionItems.addAll(tmpList)
-
+        // Re-emit the current list so observers refresh contact-derived display names.
         itemsSubject.onNext(transactionItems)
     }
 
@@ -127,14 +120,15 @@ class TransactionsService(
     private fun handle(assetBriefMetadataMap: Map<NftUid, NftAssetBriefMetadata>) {
         var updated = false
         transactionItems.forEachIndexed { index, item ->
-            val tmpMetadata = item.nftMetadata.toMutableMap()
-            item.record.nftUids.forEach { nftUid ->
-                assetBriefMetadataMap[nftUid]?.let {
-                    tmpMetadata[nftUid] = it
-                }
+            val newEntries = item.record.nftUids.mapNotNull { nftUid ->
+                assetBriefMetadataMap[nftUid]?.let { nftUid to it }
             }
-            transactionItems[index] = item.copy(nftMetadata = tmpMetadata)
-            updated = true
+            if (newEntries.isNotEmpty()) {
+                val tmpMetadata = item.nftMetadata.toMutableMap()
+                newEntries.forEach { (nftUid, metadata) -> tmpMetadata[nftUid] = metadata }
+                transactionItems[index] = item.copy(nftMetadata = tmpMetadata)
+                updated = true
+            }
         }
 
         if (updated) {
@@ -160,18 +154,13 @@ class TransactionsService(
     @Synchronized
     private fun handleUpdatedHistoricalRate(key: HistoricalRateKey, rate: CurrencyValue) {
         var updated = false
-        for (i in 0 until transactionItems.size) {
-            val item = transactionItems[i]
-
-            item.record.mainValue?.let { mainValue ->
-                mainValue.decimalValue?.let { decimalValue ->
-                    if (mainValue.coin?.uid == key.coinUid && item.record.timestamp == key.timestamp) {
-                        val currencyValue = CurrencyValue(rate.currency, decimalValue * rate.value)
-
-                        transactionItems[i] = item.copy(currencyValue = currencyValue)
-                        updated = true
-                    }
-                }
+        transactionItems.forEachIndexed { i, item ->
+            val mainValue = item.record.mainValue ?: return@forEachIndexed
+            val decimalValue = mainValue.decimalValue ?: return@forEachIndexed
+            if (mainValue.coin?.uid == key.coinUid && item.record.timestamp == key.timestamp) {
+                val currencyValue = CurrencyValue(rate.currency, decimalValue * rate.value)
+                transactionItems[i] = item.copy(currencyValue = currencyValue)
+                updated = true
             }
         }
 
@@ -182,11 +171,8 @@ class TransactionsService(
 
     @Synchronized
     private fun handleUpdatedHistoricalRates() {
-        for (i in 0 until transactionItems.size) {
-            val item = transactionItems[i]
-            val currencyValue = getCurrencyValue(item.record)
-
-            transactionItems[i] = item.copy(currencyValue = currencyValue)
+        transactionItems.forEachIndexed { i, item ->
+            transactionItems[i] = item.copy(currencyValue = getCurrencyValue(item.record))
         }
 
         itemsSubject.onNext(transactionItems)
