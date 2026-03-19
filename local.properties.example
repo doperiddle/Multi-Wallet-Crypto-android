@@ -1,0 +1,45 @@
+## SDK location – automatically set by Android Studio
+# sdk.dir=/path/to/Android/SDK
+
+## ──────────────────────────────────────────────────────────────────────────────
+## API keys loaded by app/build.gradle.
+## Copy this file to local.properties and fill in your own values.
+## local.properties is listed in .gitignore and must NOT be committed.
+## ──────────────────────────────────────────────────────────────────────────────
+
+# Twitter (X) API Bearer Token
+twitterBearerToken=
+
+# CryptoCompare API key
+cryptoCompareApiKey=
+
+# Infura project credentials
+infuraProjectId=
+infuraSecretKey=
+
+# Block-explorer API keys
+etherscanKey=
+bscscanKey=
+polygonscanKey=
+snowtraceApiKey=
+optimisticEtherscanApiKey=
+arbiscanApiKey=
+gnosisscanApiKey=
+ftmscanApiKey=
+
+# DeFi Yield provider
+defiyieldProviderApiKey=
+
+# Market / data API keys
+marketApiKey=
+openSeaApiKey=
+walletConnectV2Key=
+solscanApiKey=
+trongridApiKey=
+udnApiKey=
+oneInchApiKey=
+
+## AppCenter signing (only required for appcenterdebug / appcenterrelease builds)
+appCenterStorePassword=
+appCenterKeyAlias=
+appCenterKeyPassword=
